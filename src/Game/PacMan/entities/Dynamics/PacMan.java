@@ -59,7 +59,7 @@ public class PacMan extends BaseDynamic{
             facing = "Right";
             turnFlag = true;
             turnCooldown = 20;
-        }else if ((handler.getKeyManager().keyJustPressed(KeyEvent.VK_LEFT) || handler.getKeyManager().keyJustPressed(KeyEvent.VK_A)) && !turnFlag&& checkPreHorizontalCollision("left")){
+        }else if ((handler.getKeyManager().keyJustPressed(KeyEvent.VK_LEFT) || handler.getKeyManager().keyJustPressed(KeyEvent.VK_A)) && !turnFlag&& checkPreHorizontalCollision("Left")){
             facing = "Left";
             turnFlag = true;
             turnCooldown = 20;
