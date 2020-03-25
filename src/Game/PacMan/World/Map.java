@@ -1,13 +1,14 @@
 package Game.PacMan.World;
 
+import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.Random;
+
 import Game.PacMan.entities.Dynamics.BaseDynamic;
 import Game.PacMan.entities.Dynamics.PacMan;
 import Game.PacMan.entities.Statics.BaseStatic;
+import Game.PacMan.entities.Statics.BigDot;
 import Main.Handler;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Random;
 
 public class Map {
 
@@ -17,6 +18,7 @@ public class Map {
     private double bottomBorder;
     private Random rand;
     private int mapBackground;
+    private int blink = 0; //Variable for BigDot blink
 
     public Map(Handler handler) {
         this.handler=handler;
@@ -39,9 +41,10 @@ public class Map {
 
     public void drawMap(Graphics2D g2) {
         for (BaseStatic block:blocksOnMap) {
-
-            g2.drawImage(block.sprite, block.x, block.y, block.width, block.height, null);
-
+        	if(block instanceof BigDot && blink%60 <= 29){} //Animation for BigDot and it blinks each second
+        	else {
+        		g2.drawImage(block.sprite, block.x, block.y, block.width, block.height, null);
+        	}
         }
         for (BaseDynamic entity:enemiesOnMap) {
             if (entity instanceof PacMan) {
@@ -64,7 +67,9 @@ public class Map {
                 g2.drawImage(entity.sprite, entity.x, entity.y, entity.width, entity.height, null);
             }
         }
-
+        
+        if(blink > 10000000) {blink = 0;} //Resets blink if it gets too big
+        else {blink++;}
     }
 
     public ArrayList<BaseStatic> getBlocksOnMap() {
