@@ -18,7 +18,7 @@ import java.util.Random;
 public class Ghost extends BaseDynamic{
 
 	Random random = new Random();
-    protected double velX,velY,speed = 1;
+    protected double velX,velY,speed = random.nextInt(3)+1;
     public String facing = "Up";
     public boolean moving = true,turnFlag = false;
     public Animation leftAnim,rightAnim,upAnim,downAnim;
