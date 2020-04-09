@@ -1,26 +1,33 @@
 package Game.PacMan.entities.Dynamics;
 
+import Game.PacMan.World.MapBuilder;
 import Game.PacMan.entities.Statics.BaseStatic;
 import Game.PacMan.entities.Statics.BoundBlock;
+import Game.PacMan.entities.Statics.GhostSpawner;
 import Main.Handler;
 import Resources.Animation;
 import Resources.Images;
+import jdk.nashorn.internal.ir.Block;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Ghost extends BaseDynamic{
 
+	Random random = new Random();
     protected double velX,velY,speed = 1;
-    public String facing = "Left";
+    public String facing = "Up";
     public boolean moving = true,turnFlag = false;
     public Animation leftAnim,rightAnim,upAnim,downAnim;
     int turnCooldown = 30;
+    
 
 
-    public Ghost(int x, int y, int width, int height, Handler handler) {
-        super(x, y, width, height, handler, Images.ghost);
+    public Ghost(int x, int y, int width, int height, Handler handler, BufferedImage[] ghost) {
+        super(x, y, width, height, handler, Images.ghost[0]);
         leftAnim = new Animation(128,Images.pacmanLeft);
         rightAnim = new Animation(128,Images.pacmanRight);
         upAnim = new Animation(128,Images.pacmanUp);
@@ -55,22 +62,7 @@ public class Ghost extends BaseDynamic{
         if (turnFlag){
             turnCooldown--;
         }
-
-        if ((handler.getKeyManager().keyJustPressed(KeyEvent.VK_RIGHT)  || handler.getKeyManager().keyJustPressed(KeyEvent.VK_D)) && !turnFlag && checkPreHorizontalCollision("Right")){
-            facing = "Right";
-            turnFlag = true;
-
-        }else if ((handler.getKeyManager().keyJustPressed(KeyEvent.VK_LEFT) || handler.getKeyManager().keyJustPressed(KeyEvent.VK_A)) && !turnFlag&& checkPreHorizontalCollision("Left")){
-            facing = "Left";
-            turnFlag = true;
-        }else if ((handler.getKeyManager().keyJustPressed(KeyEvent.VK_UP)  ||handler.getKeyManager().keyJustPressed(KeyEvent.VK_W)) && !turnFlag&& checkPreVerticalCollisions("Up")){
-            facing = "Up";
-            turnFlag = true;
-        }else if ((handler.getKeyManager().keyJustPressed(KeyEvent.VK_DOWN)  || handler.getKeyManager().keyJustPressed(KeyEvent.VK_S)) && !turnFlag&& checkPreVerticalCollisions("Down")){
-            facing = "Down";
-            turnFlag = true;
-        }
-
+        
         if (facing.equals("Right") || facing.equals("Left")){
             checkHorizontalCollision();
         }else{
@@ -96,6 +88,15 @@ public class Ghost extends BaseDynamic{
                 Rectangle brickBounds = !toUp ? brick.getTopBounds() : brick.getBottomBounds();
                 if (ghostBounds.intersects(brickBounds)) {
                     velY = 0;
+        			switch(random.nextInt(2)){
+        			case 0:
+        				facing = "Left";
+        				velX -= speed;
+        				break;
+        			case 1:
+        				facing = "Right";
+        				velX += speed;
+        			}
                     if (toUp)
                         ghost.setY(brick.getY() + ghost.getDimension().height);
                     else
@@ -169,6 +170,15 @@ public class Ghost extends BaseDynamic{
                     Rectangle brickBounds = !toRight ? brick.getRightBounds() : brick.getLeftBounds();
                     if (ghostBounds.intersects(brickBounds)) {
                         velX = 0;
+            			switch(random.nextInt(2)){
+            			case 0:
+            				facing = "Down";
+            				velY -= speed;
+            				break;
+            			case 1:
+            				facing = "Up";
+            				velY += speed;
+            			}
                         if (toRight)
                             ghost.setX(brick.getX() - ghost.getDimension().width);
                         else
@@ -205,6 +215,12 @@ public class Ghost extends BaseDynamic{
     }
     public double getVelY() {
         return velY;
+    }
+    public double getSpeed() {
+        return speed;
+    }
+    public BufferedImage[] getGhost() {
+    	return Images.ghost;
     }
 
 }

@@ -50,7 +50,7 @@ public class GameState extends State {
             }
         }));
 
-        uiManager.addObjects(new UIImageButton(((handler.getWidth() / 2)) - ((handler.getWidth() / 14)) , (handler.getHeight() /2)-(handler.getHeight() /32), handler.getWidth()/8, handler.getHeight()/8, Images.pacmanRight, new ClickListlener() {
+        uiManager.addObjects(new UIImageButton(((handler.getWidth() / 2)) - ((handler.getWidth() / 12)) , (handler.getHeight() /2)-(handler.getHeight() /24), handler.getWidth()/6, handler.getHeight()/6, Images.pacmanLogo, new ClickListlener() {
             @Override
             public void onClick() {
                 handler.getMouseManager().setUimanager(null);

@@ -28,8 +28,9 @@ public class Images {
     public static BufferedImage[] galagaEnemyBee;
 
     public static BufferedImage map1;
-    public static BufferedImage ghost;
+    public static BufferedImage[] ghost;
     public static BufferedImage[] pacmanDots;
+    public static BufferedImage cherry;
     public static BufferedImage[] pacmanRight;
     public static BufferedImage[] pacmanLeft;
     public static BufferedImage[] pacmanUp;
@@ -37,6 +38,7 @@ public class Images {
     public static BufferedImage[] bound;
     public static BufferedImage intro;
     public static BufferedImage start;
+    public static BufferedImage pacmanLogo;
 
 
 
@@ -64,6 +66,7 @@ public class Images {
         pacmanUp = new BufferedImage[2];
         pacmanDown = new BufferedImage[2];
         bound = new BufferedImage[16];
+        ghost = new BufferedImage[4];
 
 
         try {
@@ -129,12 +132,20 @@ public class Images {
 
             galagaPlayerLaser = galagaSpriteSheet.crop(365 ,219,3,8);
 
+            pacmanLogo = ImageIO.read(getClass().getResourceAsStream("/UI/Misc/paclo.png"));
             pacmanImageSheet = ImageIO.read(getClass().getResourceAsStream("/UI/SpriteSheets/PacMan/Background.png"));
             pacmanSpriteSheet = new SpriteSheet(pacmanImageSheet);
             map1 = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/PacManMaps/map1.png"));
-            ghost = pacmanSpriteSheet.crop(456,64,16,16);
+            ghost[0] = pacmanSpriteSheet.crop(456,64,16,16);
+            ghost[1] = pacmanSpriteSheet.crop(456,80,16,16);
+            ghost[2] = pacmanSpriteSheet.crop(456,96,16,16);
+            ghost[3] = pacmanSpriteSheet.crop(456,112,16,16);
+            
+            
             pacmanDots[0] = pacmanSpriteSheet.crop(643,18,16,16);
             pacmanDots[1] = pacmanSpriteSheet.crop(623,18,16,16);
+            
+            cherry = pacmanSpriteSheet.crop(488,48,16,16);
 
             bound[0] = pacmanSpriteSheet.crop(603,18,16,16);//single
             bound[1] = pacmanSpriteSheet.crop(615,37,16,16);//right open

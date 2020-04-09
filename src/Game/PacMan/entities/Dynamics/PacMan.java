@@ -2,6 +2,7 @@ package Game.PacMan.entities.Dynamics;
 
 import Game.PacMan.entities.Statics.BaseStatic;
 import Game.PacMan.entities.Statics.BoundBlock;
+import Game.PacMan.entities.Statics.GhostSpawner;
 import Main.Handler;
 import Resources.Animation;
 import Resources.Images;

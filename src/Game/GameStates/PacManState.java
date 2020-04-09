@@ -3,9 +3,12 @@ package Game.GameStates;
 import Display.UI.UIManager;
 import Game.PacMan.World.MapBuilder;
 import Game.PacMan.entities.Dynamics.BaseDynamic;
+import Game.PacMan.entities.Dynamics.Ghost;
 import Game.PacMan.entities.Statics.BaseStatic;
 import Game.PacMan.entities.Statics.BigDot;
+import Game.PacMan.entities.Statics.Cherry;
 import Game.PacMan.entities.Statics.Dot;
+import Game.PacMan.entities.Statics.GhostSpawner;
 import Main.Handler;
 import Resources.Images;
 
@@ -28,6 +31,10 @@ public class PacManState extends State {
 
     @Override
     public void tick() {
+    	if ((handler.getKeyManager().keyJustPressed(KeyEvent.VK_C))){
+    		handler.getGhostSpawner().Spawn();
+		}
+                	
         if (Mode.equals("Stage")){
             if (startCooldown<=0) {
                 for (BaseDynamic entity : handler.getMap().getEnemiesOnMap()) {
@@ -46,8 +53,13 @@ public class PacManState extends State {
                             handler.getMusicHandler().playEffect("pacman_chomp.wav");
                             toREmove.add(blocks);
                             handler.getScoreManager().addPacmanCurrentScore(100);
-
                         }
+                    }else if(blocks instanceof Cherry) {
+                    	if (blocks.getBounds().intersects(handler.getPacman().getBounds())) {
+                    		handler.getMusicHandler().playEffect("pacman_chomp.wav");
+                            toREmove.add(blocks);
+                            handler.getScoreManager().addPacmanCurrentScore(120);
+                    	}
                     }
                 }
                 for (BaseStatic removing: toREmove){

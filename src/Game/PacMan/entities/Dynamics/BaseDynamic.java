@@ -2,9 +2,11 @@ package Game.PacMan.entities.Dynamics;
 
 import Game.PacMan.entities.BaseEntity;
 import Game.PacMan.entities.Statics.BaseStatic;
+import Game.PacMan.entities.Statics.GhostSpawner;
 import Main.Handler;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
 public class BaseDynamic extends BaseEntity {
