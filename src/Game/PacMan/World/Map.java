@@ -9,6 +9,7 @@ import Game.PacMan.entities.Dynamics.PacMan;
 import Game.PacMan.entities.Statics.BaseStatic;
 import Game.PacMan.entities.Statics.BigDot;
 import Main.Handler;
+import Resources.Images;
 
 public class Map {
 
@@ -67,6 +68,9 @@ public class Map {
                 g2.drawImage(entity.sprite, entity.x, entity.y, entity.width, entity.height, null);
             }
         }
+        for (int i = 0; i< handler.getPacManState().getHealth();i++) {//Draws the current remaining lives of Pac-Man
+            g2.drawImage(Images.pacmanRight[0], (3*handler.getWidth()/4)+i*64, handler.getHeight()-handler.getHeight()/4, 48, 48, null);
+        }
         
         if(blink > 10000000) {blink = 0;} //Resets blink if it gets too big
         else {blink++;}
@@ -84,6 +88,7 @@ public class Map {
         return bottomBorder;
     }
 
-    public void reset() {
+    public void reset() {//Implemented the map reset function
+    	handler.setMap(MapBuilder.createMap(Images.map1, handler));
     }
 }

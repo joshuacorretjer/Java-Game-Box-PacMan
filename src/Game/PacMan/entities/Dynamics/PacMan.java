@@ -1,14 +1,14 @@
 package Game.PacMan.entities.Dynamics;
 
+import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+
 import Game.PacMan.entities.Statics.BaseStatic;
 import Game.PacMan.entities.Statics.BoundBlock;
 import Main.Handler;
 import Resources.Animation;
 import Resources.Images;
-
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 
 public class PacMan extends BaseDynamic{
 
@@ -72,6 +72,16 @@ public class PacMan extends BaseDynamic{
             turnFlag = true;
             turnCooldown = 20;
         }
+        
+        //Add health debug command
+        if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_N) && handler.getPacManState().health < 3) {
+        	handler.getPacManState().health++;
+        }
+        
+        //Take health debug command
+        if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_P)) {
+        	damage();
+        }
 
         if (facing.equals("Right") || facing.equals("Left")){
             checkHorizontalCollision();
@@ -107,14 +117,15 @@ public class PacMan extends BaseDynamic{
 
         for(BaseDynamic enemy : enemies){
             Rectangle enemyBounds = !toUp ? enemy.getTopBounds() : enemy.getBottomBounds();
-            if (pacmanBounds.intersects(enemyBounds)) {
+            if (pacmanBounds.intersects(enemyBounds) || handler.getKeyManager().keyJustPressed(KeyEvent.VK_P)) {
                 pacmanDies = true;
+                damage();
                 break;
             }
         }
 
         if(pacmanDies) {
-            handler.getMap().reset();
+            damage();
         }
     }
 
@@ -157,12 +168,13 @@ public class PacMan extends BaseDynamic{
             Rectangle enemyBounds = !toRight ? enemy.getRightBounds() : enemy.getLeftBounds();
             if (pacmanBounds.intersects(enemyBounds)) {
                 pacmanDies = true;
+                damage();
                 break;
             }
         }
 
         if(pacmanDies) {
-            handler.getMap().reset();
+            damage();
         }else {
 
             for (BaseStatic brick : bricks) {
@@ -198,6 +210,11 @@ public class PacMan extends BaseDynamic{
                 }
             }
         return true;
+    }
+    
+    public void damage() {//Added a damage function to keep it all in one place
+    	handler.getMap().reset();
+    	handler.getPacManState().health--;
     }
 
 

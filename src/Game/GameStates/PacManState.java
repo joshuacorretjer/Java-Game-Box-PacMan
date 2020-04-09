@@ -17,8 +17,9 @@ public class PacManState extends State {
 
     private UIManager uiManager;
     public String Mode = "Intro";
-    public int startCooldown = 60*4;//seven seconds for the music to finish
-
+    public int health = 3, startCooldown = 60*4;//seven seconds for the music to finish
+    //Added health to PacManState so the map reset doesn't reset it
+    
     public PacManState(Handler handler){
         super(handler);
         handler.setMap(MapBuilder.createMap(Images.map1, handler));
@@ -93,6 +94,12 @@ public class PacManState extends State {
     public void refresh() {
 
     }
+    
+    public int getHealth() {//Added health getter
+    	return health;
+    }
 
-
+    public void setHealth(int health) {//Added health setter
+    	this.health = health;
+    }
 }
