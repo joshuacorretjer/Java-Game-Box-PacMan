@@ -23,7 +23,7 @@ public class GhostSpawner extends BaseStatic{
 	}
 		public void Spawn(){
 			
-				Ghost gs = new Ghost(x,y,18,18, handler, Images.ghost);
+				Ghost gs = new Ghost(x,y,18,18, handler, Images.ghost[0]);
 				handler.getMap().addEnemy(gs);
 //				Map mapInCreation = new Map(handler);
 //				for (int i = 0; i < mapImage.getWidth(); i++) {

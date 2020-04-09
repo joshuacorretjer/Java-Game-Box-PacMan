@@ -26,7 +26,7 @@ public class Ghost extends BaseDynamic{
     
 
 
-    public Ghost(int x, int y, int width, int height, Handler handler, BufferedImage[] ghost) {
+    public Ghost(int x, int y, int width, int height, Handler handler, BufferedImage ghost) {
         super(x, y, width, height, handler, Images.ghost[0]);
         leftAnim = new Animation(128,Images.pacmanLeft);
         rightAnim = new Animation(128,Images.pacmanRight);
