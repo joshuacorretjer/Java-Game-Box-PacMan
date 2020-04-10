@@ -32,6 +32,7 @@ public class PacManState extends State {
     @Override
     public void tick() {
     	if ((handler.getKeyManager().keyJustPressed(KeyEvent.VK_C))){
+    		handler.getGhostSpawner().Spawn();
 		}
                 	
         if (Mode.equals("Stage")){
