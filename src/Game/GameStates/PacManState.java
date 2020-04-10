@@ -1,18 +1,22 @@
 package Game.GameStates;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+
 import Display.UI.UIManager;
 import Game.PacMan.World.MapBuilder;
 import Game.PacMan.entities.Dynamics.BaseDynamic;
 import Game.PacMan.entities.Dynamics.Ghost;
 import Game.PacMan.entities.Statics.BaseStatic;
 import Game.PacMan.entities.Statics.BigDot;
+import Game.PacMan.entities.Statics.Cherry;
 import Game.PacMan.entities.Statics.Dot;
 import Main.Handler;
 import Resources.Images;
-
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 
 public class PacManState extends State {
 
@@ -31,6 +35,10 @@ public class PacManState extends State {
 
     @Override
     public void tick() {
+    	if ((handler.getKeyManager().keyJustPressed(KeyEvent.VK_C))){
+    		handler.getGhostSpawner().Spawn();
+		}
+                	
         if (Mode.equals("Stage")){
             if (startCooldown<=0) {
                 for (BaseDynamic entity : handler.getMap().getEnemiesOnMap()) {
@@ -60,6 +68,12 @@ public class PacManState extends State {
                             canEatGhost = true;
                             eatGhostCooldown = 15*60;
                         }
+                    }else if(blocks instanceof Cherry) {
+                    	if (blocks.getBounds().intersects(handler.getPacman().getBounds())) {
+                    		handler.getMusicHandler().playEffect("pacman_chomp.wav");
+                            toREmove.add(blocks);
+                            handler.getScoreManager().addPacmanCurrentScore(120);
+                    	}
                     }
                 }
                 for (BaseStatic removing: toREmove){
@@ -106,6 +120,10 @@ public class PacManState extends State {
             g.drawImage(Images.intro,0,0,handler.getWidth()/2,handler.getHeight(),null);
 
         }
+        	handler.getGhostSpawner().Spawn();
+       
+
+        
     }
 
     @Override

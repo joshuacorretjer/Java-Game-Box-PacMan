@@ -4,6 +4,7 @@ import Display.DisplayScreen;
 import Game.GameStates.*;
 import Game.PacMan.World.Map;
 import Game.PacMan.entities.Dynamics.PacMan;
+import Game.PacMan.entities.Statics.GhostSpawner;
 import Input.KeyManager;
 import Input.MouseManager;
 import Resources.MusicHandler;
@@ -30,6 +31,7 @@ public class Handler {
     public static boolean DEBUG = true;
     private Map map;
     private PacMan pacman;
+    private GhostSpawner ghostspawner;
 
     public Handler(GameSetUp game){
         this.game = game;
@@ -162,5 +164,13 @@ public class Handler {
 
     public void setPacman(PacMan pacman) {
         this.pacman = pacman;
+    }
+    
+    public GhostSpawner getGhostSpawner() {
+        return ghostspawner;
+    }
+
+    public void setGhostSpawner(GhostSpawner ghostspawner) {
+        this.ghostspawner = ghostspawner;
     }
 }

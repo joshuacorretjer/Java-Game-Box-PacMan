@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import Game.PacMan.entities.Statics.BaseStatic;
 import Game.PacMan.entities.Statics.BoundBlock;
+import Game.PacMan.entities.Statics.GhostSpawner;
 import Main.Handler;
 import Resources.Animation;
 import Resources.Images;
@@ -59,7 +60,7 @@ public class PacMan extends BaseDynamic{
             facing = "Right";
             turnFlag = true;
             turnCooldown = 20;
-        }else if ((handler.getKeyManager().keyJustPressed(KeyEvent.VK_LEFT) || handler.getKeyManager().keyJustPressed(KeyEvent.VK_A)) && !turnFlag&& checkPreHorizontalCollision("left")){
+        }else if ((handler.getKeyManager().keyJustPressed(KeyEvent.VK_LEFT) || handler.getKeyManager().keyJustPressed(KeyEvent.VK_A)) && !turnFlag&& checkPreHorizontalCollision("Left")){
             facing = "Left";
             turnFlag = true;
             turnCooldown = 20;

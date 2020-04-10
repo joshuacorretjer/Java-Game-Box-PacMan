@@ -6,12 +6,15 @@ import Game.PacMan.entities.Dynamics.PacMan;
 import Game.PacMan.entities.Statics.BaseStatic;
 import Game.PacMan.entities.Statics.BigDot;
 import Game.PacMan.entities.Statics.BoundBlock;
+import Game.PacMan.entities.Statics.Cherry;
 import Game.PacMan.entities.Statics.Dot;
+import Game.PacMan.entities.Statics.GhostSpawner;
 import Main.Handler;
 import Resources.Images;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 public class MapBuilder {
 
@@ -21,6 +24,7 @@ public class MapBuilder {
 	public static int ghostC = new Color(25, 255,0).getRGB();
 	public static int dotC = new Color(255, 10, 0).getRGB();
 	public static int bigDotC = new Color(167, 0, 150).getRGB();
+	Random random = new Random();
 
 	public static Map createMap(BufferedImage mapImage, Handler handler){
 		Map mapInCreation = new Map(handler);
@@ -37,11 +41,19 @@ public class MapBuilder {
 					mapInCreation.addEnemy(PacMan);
 					handler.setPacman((Game.PacMan.entities.Dynamics.PacMan) PacMan);
 				}else if(currentPixel == ghostC){
-					BaseDynamic ghost = new Ghost(xPos,yPos,pixelMultiplier,pixelMultiplier,handler);
-					mapInCreation.addEnemy(ghost);
+					BaseStatic ghost = new GhostSpawner(xPos, yPos, pixelMultiplier, pixelMultiplier, handler);
+					mapInCreation.addBlock(ghost);
+					handler.setGhostSpawner((GhostSpawner) ghost);
+					
 				}else if(currentPixel == dotC){
-					BaseStatic dot = new Dot(xPos,yPos,pixelMultiplier,pixelMultiplier,handler);
-					mapInCreation.addBlock(dot);
+					Random random = new Random();
+					if(random.nextInt(30) == 3) {
+						BaseStatic cher = new Cherry(xPos,yPos,pixelMultiplier,pixelMultiplier,handler);
+						mapInCreation.addBlock(cher);
+					}else {
+						BaseStatic dot = new Dot(xPos,yPos,pixelMultiplier,pixelMultiplier,handler);
+						mapInCreation.addBlock(dot);
+					}
 				}else if(currentPixel == bigDotC){
 					BaseStatic bigDot = new BigDot(xPos,yPos,pixelMultiplier,pixelMultiplier,handler);
 					mapInCreation.addBlock(bigDot);
