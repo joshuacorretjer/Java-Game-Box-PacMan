@@ -80,7 +80,7 @@ public class PacMan extends BaseDynamic{
         
         //Take health debug command
         if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_P)) {
-        	damage();
+        	onGhostCollision();
         }
 
         if (facing.equals("Right") || facing.equals("Left")){
@@ -119,13 +119,13 @@ public class PacMan extends BaseDynamic{
             Rectangle enemyBounds = !toUp ? enemy.getTopBounds() : enemy.getBottomBounds();
             if (pacmanBounds.intersects(enemyBounds) || handler.getKeyManager().keyJustPressed(KeyEvent.VK_P)) {
                 pacmanDies = true;
-                damage();
+                onGhostCollision();
                 break;
             }
         }
 
         if(pacmanDies) {
-            damage();
+            onGhostCollision();
         }
     }
 
@@ -168,13 +168,13 @@ public class PacMan extends BaseDynamic{
             Rectangle enemyBounds = !toRight ? enemy.getRightBounds() : enemy.getLeftBounds();
             if (pacmanBounds.intersects(enemyBounds)) {
                 pacmanDies = true;
-                damage();
+                onGhostCollision();
                 break;
             }
         }
 
         if(pacmanDies) {
-            damage();
+            onGhostCollision();
         }else {
 
             for (BaseStatic brick : bricks) {
@@ -212,7 +212,7 @@ public class PacMan extends BaseDynamic{
         return true;
     }
     
-    public void damage() {//Added a damage function to keep it all in one place
+    public void onGhostCollision() {//Added a onGhostCollision function to keep it all in one place
     	if(!handler.getPacManState().canEatGhost) {
         	handler.getPacManState().health--;
         	handler.getMap().reset();

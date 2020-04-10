@@ -21,10 +21,10 @@ public class Ghost extends BaseDynamic{
 
     public Ghost(int x, int y, int width, int height, Handler handler) {
         super(x, y, width, height, handler, Images.ghost);
-//        leftAnim = new Animation(128,Images.pacmanLeft);
-//        rightAnim = new Animation(128,Images.pacmanRight);
-//        upAnim = new Animation(128,Images.pacmanUp);
-//        downAnim = new Animation(128,Images.pacmanDown);
+        leftAnim = new Animation(128,Images.pacmanLeft);
+        rightAnim = new Animation(128,Images.pacmanRight);
+        upAnim = new Animation(128,Images.pacmanUp);
+        downAnim = new Animation(128,Images.pacmanDown);
         ghostBlueAnim = new Animation(256,Images.ghostBlue);
     }
 
@@ -33,24 +33,24 @@ public class Ghost extends BaseDynamic{
     	if(handler.getPacManState().canEatGhost) {
     		ghostBlueAnim.tick();
     	}
-//        switch (facing){
-//            case "Right":
-//                x+=velX;
-//                rightAnim.tick();
-//                break;
-//            case "Left":
-//                x-=velX;
-//                leftAnim.tick();
-//                break;
-//            case "Up":
-//                y-=velY;
-//                upAnim.tick();
-//                break;
-//            case "Down":
-//                y+=velY;
-//                downAnim.tick();
-//                break;
-//        }
+        switch (facing){
+            case "Right":
+                x+=velX;
+                rightAnim.tick();
+                break;
+            case "Left":
+                x-=velX;
+                leftAnim.tick();
+                break;
+            case "Up":
+                y-=velY;
+                upAnim.tick();
+                break;
+            case "Down":
+                y+=velY;
+                downAnim.tick();
+                break;
+        }
         if (turnCooldown<=0){
             turnFlag= false;
             turnCooldown = 30;
@@ -116,7 +116,7 @@ public class Ghost extends BaseDynamic{
         }
 
         if(ghostDies) {
-            handler.getMap().reset();
+//            handler.getMap().reset();
         }
     }
 
@@ -144,7 +144,6 @@ public class Ghost extends BaseDynamic{
     }
 
 
-
     public void checkHorizontalCollision(){
         Ghost ghost = this;
         ArrayList<BaseStatic> bricks = handler.getMap().getBlocksOnMap();
@@ -164,7 +163,7 @@ public class Ghost extends BaseDynamic{
         }
 
         if(ghostDies) {
-            handler.getMap().reset();
+//            handler.getMap().reset();
         }else {
 
             for (BaseStatic brick : bricks) {
@@ -201,11 +200,7 @@ public class Ghost extends BaseDynamic{
         }
         return true;
     }
-    
-//    public void turnBlue() {
-//    	boolean canBeEaten = false;
-//    }
-
+   
 
     public double getVelX() {
         return velX;

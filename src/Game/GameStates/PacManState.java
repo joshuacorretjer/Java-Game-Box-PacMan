@@ -34,6 +34,12 @@ public class PacManState extends State {
         if (Mode.equals("Stage")){
             if (startCooldown<=0) {
                 for (BaseDynamic entity : handler.getMap().getEnemiesOnMap()) {
+                	if(entity instanceof Ghost) { //If Pac-Man eats a ghost during the power up, he will get 500 points 
+                		if (entity.getBounds().intersects(handler.getPacman().getBounds()) && canEatGhost){
+                            handler.getMusicHandler().playEffect("pacman_chomp.wav");
+                            handler.getScoreManager().addPacmanCurrentScore(500);
+                        }
+                	}
                     entity.tick();
                 }
                 ArrayList<BaseStatic> toREmove = new ArrayList<>();
