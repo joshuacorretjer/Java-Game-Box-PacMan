@@ -32,7 +32,6 @@ public class PacManState extends State {
     @Override
     public void tick() {
     	if ((handler.getKeyManager().keyJustPressed(KeyEvent.VK_C))){
-    		handler.getGhostSpawner().Spawn();
 		}
                 	
         if (Mode.equals("Stage")){
@@ -99,6 +98,10 @@ public class PacManState extends State {
             g.drawImage(Images.intro,0,0,handler.getWidth()/2,handler.getHeight(),null);
 
         }
+        	handler.getGhostSpawner().Spawn();
+       
+
+        
     }
 
     @Override

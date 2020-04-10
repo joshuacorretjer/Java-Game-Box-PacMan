@@ -27,7 +27,7 @@ public class Ghost extends BaseDynamic{
 
 
     public Ghost(int x, int y, int width, int height, Handler handler, BufferedImage ghost) {
-        super(x, y, width, height, handler, Images.ghost[0]);
+        super(x, y, width, height, handler,ghost);
         leftAnim = new Animation(128,Images.pacmanLeft);
         rightAnim = new Animation(128,Images.pacmanRight);
         upAnim = new Animation(128,Images.pacmanUp);
@@ -216,10 +216,16 @@ public class Ghost extends BaseDynamic{
     public double getVelY() {
         return velY;
     }
-    public double getSpeed() {
-        return speed;
-    }
-    public BufferedImage[] getGhost() {
+
+	public double getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(double speed) {
+		this.speed = speed;
+	}
+
+	public BufferedImage[] getGhost() {
     	return Images.ghost;
     }
 
