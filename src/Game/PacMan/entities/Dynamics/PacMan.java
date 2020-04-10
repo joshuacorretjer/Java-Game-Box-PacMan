@@ -213,8 +213,10 @@ public class PacMan extends BaseDynamic{
     }
     
     public void damage() {//Added a damage function to keep it all in one place
-    	handler.getMap().reset();
-    	handler.getPacManState().health--;
+    	if(!handler.getPacManState().canEatGhost) {
+        	handler.getPacManState().health--;
+        	handler.getMap().reset();
+    	}
     }
 
 

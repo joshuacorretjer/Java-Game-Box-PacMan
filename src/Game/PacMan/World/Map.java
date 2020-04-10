@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import Game.PacMan.entities.Dynamics.BaseDynamic;
+import Game.PacMan.entities.Dynamics.Ghost;
 import Game.PacMan.entities.Dynamics.PacMan;
 import Game.PacMan.entities.Statics.BaseStatic;
 import Game.PacMan.entities.Statics.BigDot;
@@ -63,12 +64,14 @@ public class Map {
                         g2.drawImage(((PacMan) entity).downAnim.getCurrentFrame(), entity.x, entity.y, entity.width, entity.height, null);
                         break;
                 }
+            }else if(entity instanceof Ghost && handler.getPacManState().canEatGhost) {//Added blue ghost animation when Pac-Man eats a BigDot
+            		g2.drawImage(((Ghost) entity).ghostBlueAnim.getCurrentFrame(), entity.x, entity.y, entity.width, entity.height, null);
             }
             else {
                 g2.drawImage(entity.sprite, entity.x, entity.y, entity.width, entity.height, null);
             }
         }
-        for (int i = 0; i< handler.getPacManState().getHealth();i++) {//Draws the current remaining lives of Pac-Man
+        for (int i = 0; i< handler.getPacManState().health;i++) {//Draws the current remaining lives of Pac-Man
             g2.drawImage(Images.pacmanRight[0], (3*handler.getWidth()/4)+i*64, handler.getHeight()-handler.getHeight()/4, 48, 48, null);
         }
         

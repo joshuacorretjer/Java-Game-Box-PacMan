@@ -15,39 +15,42 @@ public class Ghost extends BaseDynamic{
     protected double velX,velY,speed = 1;
     public String facing = "Left";
     public boolean moving = true,turnFlag = false;
-    public Animation leftAnim,rightAnim,upAnim,downAnim;
+    public Animation leftAnim,rightAnim,upAnim,downAnim, ghostBlueAnim;
     int turnCooldown = 30;
 
 
     public Ghost(int x, int y, int width, int height, Handler handler) {
         super(x, y, width, height, handler, Images.ghost);
-        leftAnim = new Animation(128,Images.pacmanLeft);
-        rightAnim = new Animation(128,Images.pacmanRight);
-        upAnim = new Animation(128,Images.pacmanUp);
-        downAnim = new Animation(128,Images.pacmanDown);
+//        leftAnim = new Animation(128,Images.pacmanLeft);
+//        rightAnim = new Animation(128,Images.pacmanRight);
+//        upAnim = new Animation(128,Images.pacmanUp);
+//        downAnim = new Animation(128,Images.pacmanDown);
+        ghostBlueAnim = new Animation(256,Images.ghostBlue);
     }
 
     @Override
     public void tick(){
-
-        switch (facing){
-            case "Right":
-                x+=velX;
-                rightAnim.tick();
-                break;
-            case "Left":
-                x-=velX;
-                leftAnim.tick();
-                break;
-            case "Up":
-                y-=velY;
-                upAnim.tick();
-                break;
-            case "Down":
-                y+=velY;
-                downAnim.tick();
-                break;
-        }
+    	if(handler.getPacManState().canEatGhost) {
+    		ghostBlueAnim.tick();
+    	}
+//        switch (facing){
+//            case "Right":
+//                x+=velX;
+//                rightAnim.tick();
+//                break;
+//            case "Left":
+//                x-=velX;
+//                leftAnim.tick();
+//                break;
+//            case "Up":
+//                y-=velY;
+//                upAnim.tick();
+//                break;
+//            case "Down":
+//                y+=velY;
+//                downAnim.tick();
+//                break;
+//        }
         if (turnCooldown<=0){
             turnFlag= false;
             turnCooldown = 30;
@@ -198,6 +201,10 @@ public class Ghost extends BaseDynamic{
         }
         return true;
     }
+    
+//    public void turnBlue() {
+//    	boolean canBeEaten = false;
+//    }
 
 
     public double getVelX() {

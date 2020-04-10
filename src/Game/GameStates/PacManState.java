@@ -3,6 +3,7 @@ package Game.GameStates;
 import Display.UI.UIManager;
 import Game.PacMan.World.MapBuilder;
 import Game.PacMan.entities.Dynamics.BaseDynamic;
+import Game.PacMan.entities.Dynamics.Ghost;
 import Game.PacMan.entities.Statics.BaseStatic;
 import Game.PacMan.entities.Statics.BigDot;
 import Game.PacMan.entities.Statics.Dot;
@@ -17,8 +18,9 @@ public class PacManState extends State {
 
     private UIManager uiManager;
     public String Mode = "Intro";
-    public int health = 3, startCooldown = 60*4;//seven seconds for the music to finish
-    //Added health to PacManState so the map reset doesn't reset it
+    public boolean canEatGhost = false; //Added a variable if Pac-Man can eat ghosts
+    public int health = 3, eatGhostCooldown = 15*60, startCooldown = 60*4;//seven seconds for the music to finish
+    //Added health to PacManState so the map reset doesn't reset it and cooldown for Pac-Man eating ghosts
     
     public PacManState(Handler handler){
         super(handler);
@@ -47,12 +49,22 @@ public class PacManState extends State {
                             handler.getMusicHandler().playEffect("pacman_chomp.wav");
                             toREmove.add(blocks);
                             handler.getScoreManager().addPacmanCurrentScore(100);
-
+                            
+                            //Activates BigDot power up
+                            canEatGhost = true;
+                            eatGhostCooldown = 15*60;
                         }
                     }
                 }
                 for (BaseStatic removing: toREmove){
                     handler.getMap().getBlocksOnMap().remove(removing);
+                }
+                
+                if(canEatGhost && eatGhostCooldown >= 0) { //Cooldown for Pac-Man BigDot power up
+                	eatGhostCooldown--;
+                }
+                else {
+                	canEatGhost = false;
                 }
             }else{
                 startCooldown--;
@@ -95,11 +107,6 @@ public class PacManState extends State {
 
     }
     
-    public int getHealth() {//Added health getter
-    	return health;
-    }
-
-    public void setHealth(int health) {//Added health setter
-    	this.health = health;
-    }
+    public int getHealth(){return health;}					//Added health getter
+    public void setHealth(int health){this.health = health;}//Added health setter
 }
