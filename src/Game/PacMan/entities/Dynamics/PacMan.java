@@ -1,6 +1,7 @@
 package Game.PacMan.entities.Dynamics;
 
 import java.awt.Rectangle;
+
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
@@ -17,7 +18,7 @@ public class PacMan extends BaseDynamic{
     public String facing = "Left";
     public boolean moving = true,turnFlag = false;
     public Animation leftAnim,rightAnim,upAnim,downAnim;
-    int turnCooldown = 20;
+    int turnCooldown = 10;//Turn cooldown was reduced so it wasn't as sluggish to turn
 
 
     public PacMan(int x, int y, int width, int height, Handler handler) {
@@ -58,24 +59,25 @@ public class PacMan extends BaseDynamic{
         if ((handler.getKeyManager().keyJustPressed(KeyEvent.VK_RIGHT)  || handler.getKeyManager().keyJustPressed(KeyEvent.VK_D)) && !turnFlag && checkPreHorizontalCollision("Right")){
             facing = "Right";
             turnFlag = true;
-            turnCooldown = 20;
+            turnCooldown = 10;
         }else if ((handler.getKeyManager().keyJustPressed(KeyEvent.VK_LEFT) || handler.getKeyManager().keyJustPressed(KeyEvent.VK_A)) && !turnFlag&& checkPreHorizontalCollision("Left")){
             facing = "Left";
             turnFlag = true;
-            turnCooldown = 20;
+            turnCooldown = 10;
         }else if ((handler.getKeyManager().keyJustPressed(KeyEvent.VK_UP)  ||handler.getKeyManager().keyJustPressed(KeyEvent.VK_W)) && !turnFlag&& checkPreVerticalCollisions("Up")){
             facing = "Up";
             turnFlag = true;
-            turnCooldown = 20;
+            turnCooldown = 10;
         }else if ((handler.getKeyManager().keyJustPressed(KeyEvent.VK_DOWN)  || handler.getKeyManager().keyJustPressed(KeyEvent.VK_S)) && !turnFlag&& checkPreVerticalCollisions("Down")){
             facing = "Down";
             turnFlag = true;
-            turnCooldown = 20;
+            turnCooldown = 10;
         }
         
         //Add health debug command
         if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_N) && handler.getPacManState().health < 3) {
         	handler.getPacManState().health++;
+        	handler.getMusicHandler().playEffect("pacman_extrapac.wav"); //Sound effect for getting a life
         }
         //Take health debug command
         if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_P)) {
@@ -210,9 +212,8 @@ public class PacMan extends BaseDynamic{
     
     public void onGhostCollision() {//Added a onGhostCollision function to keep it all in one place
         	handler.getPacManState().health--;
-        	handler.getMap().reset();
+        	handler.getPacManState().resetPacMan();//Now Pac-Man is the one that gets reset if he dies
     }
-
 
     public double getVelX() {
         return velX;

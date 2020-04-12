@@ -23,7 +23,7 @@ public class Ghost extends BaseDynamic{
     
     public Ghost(int x, int y, int width, int height, Handler handler, BufferedImage ghost) {
         super(x, y, width, height, handler,ghost);
-        ghostBlueAnim = new Animation(256,Images.ghostBlue); //Animation for blue ghost during powerup
+        ghostBlueAnim = new Animation(256,Images.ghostBlue); //Animation for blue ghost during power-up
     }
 
     @Override
@@ -158,7 +158,7 @@ public class Ghost extends BaseDynamic{
     	}
     	else {//If ghost can't be eaten, Pac-Man dies
     		handler.getPacManState().health--;
-    		handler.getMap().reset();
+    		handler.getPacManState().resetPacMan();//Pac-Man is now the one that gets reset
     	}
     }
 
