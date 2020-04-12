@@ -30,7 +30,6 @@ public class PacMan extends BaseDynamic{
 
     @Override
     public void tick(){
-
         switch (facing){
             case "Right":
                 x+=velX;
@@ -78,7 +77,6 @@ public class PacMan extends BaseDynamic{
         if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_N) && handler.getPacManState().health < 3) {
         	handler.getPacManState().health++;
         }
-        
         //Take health debug command
         if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_P)) {
         	onGhostCollision();
@@ -89,19 +87,15 @@ public class PacMan extends BaseDynamic{
         }else{
             checkVerticalCollisions();
         }
-
     }
 
     public void checkVerticalCollisions() {
         PacMan pacman = this;
         ArrayList<BaseStatic> bricks = handler.getMap().getBlocksOnMap();
         ArrayList<BaseDynamic> enemies = handler.getMap().getEnemiesOnMap();
-
         boolean pacmanDies = false;
         boolean toUp = moving && facing.equals("Up");
-
         Rectangle pacmanBounds = toUp ? pacman.getTopBounds() : pacman.getBottomBounds();
-
         velY = speed;
         for (BaseStatic brick : bricks) {
             if (brick instanceof BoundBlock) {
@@ -118,13 +112,17 @@ public class PacMan extends BaseDynamic{
 
         for(BaseDynamic enemy : enemies){
             Rectangle enemyBounds = !toUp ? enemy.getTopBounds() : enemy.getBottomBounds();
-            if (pacmanBounds.intersects(enemyBounds) || handler.getKeyManager().keyJustPressed(KeyEvent.VK_P)) {
-                pacmanDies = true;
-                onGhostCollision();
-                break;
+            if (pacmanBounds.intersects(enemyBounds)
+            		) {
+            	if(handler.getPacManState().canEatGhost) {
+            		((Ghost) enemy).onPacManCollision();
+            		break;
+            	}else{
+            		pacmanDies = true;
+                    break;
+            	}
             }
         }
-
         if(pacmanDies) {
             onGhostCollision();
         }
@@ -150,9 +148,7 @@ public class PacMan extends BaseDynamic{
             }
         }
         return true;
-
     }
-
 
 
     public void checkHorizontalCollision(){
@@ -168,16 +164,17 @@ public class PacMan extends BaseDynamic{
         for(BaseDynamic enemy : enemies){
             Rectangle enemyBounds = !toRight ? enemy.getRightBounds() : enemy.getLeftBounds();
             if (pacmanBounds.intersects(enemyBounds)) {
-                pacmanDies = true;
-                onGhostCollision();
-                break;
+            	if(handler.getPacManState().canEatGhost) {
+            		((Ghost) enemy).onPacManCollision();
+            	}else{
+            		pacmanDies = true;
+                    break;
+            	}
             }
         }
-
         if(pacmanDies) {
             onGhostCollision();
         }else {
-
             for (BaseStatic brick : bricks) {
                 if (brick instanceof BoundBlock) {
                     Rectangle brickBounds = !toRight ? brick.getRightBounds() : brick.getLeftBounds();
@@ -199,9 +196,7 @@ public class PacMan extends BaseDynamic{
         ArrayList<BaseStatic> bricks = handler.getMap().getBlocksOnMap();
         velX = speed;
         boolean toRight = moving && facing.equals("Right");
-
         Rectangle pacmanBounds = toRight ? pacman.getRightBounds() : pacman.getLeftBounds();
-
             for (BaseStatic brick : bricks) {
                 if (brick instanceof BoundBlock) {
                     Rectangle brickBounds = !toRight ? brick.getRightBounds() : brick.getLeftBounds();
@@ -214,10 +209,8 @@ public class PacMan extends BaseDynamic{
     }
     
     public void onGhostCollision() {//Added a onGhostCollision function to keep it all in one place
-    	if(!handler.getPacManState().canEatGhost) {
         	handler.getPacManState().health--;
         	handler.getMap().reset();
-    	}
     }
 
 

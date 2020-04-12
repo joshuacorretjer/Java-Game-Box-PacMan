@@ -29,26 +29,22 @@ public class PacManState extends State {
     public PacManState(Handler handler){
         super(handler);
         handler.setMap(MapBuilder.createMap(Images.map1, handler));
-
     }
-
 
     @Override
     public void tick() {
-    	if ((handler.getKeyManager().keyJustPressed(KeyEvent.VK_C))){
-    		handler.getGhostSpawner().Spawn();
-		}
-                	
         if (Mode.equals("Stage")){
             if (startCooldown<=0) {
+            	if(handler.getMap().getBlocksOnMap().isEmpty()) {
+            		handler.getMap().reset();
+            	}
                 for (BaseDynamic entity : handler.getMap().getEnemiesOnMap()) {
-                	if(entity instanceof Ghost) { //If Pac-Man eats a ghost during the power up, he will get 500 points 
-                		if (entity.getBounds().intersects(handler.getPacman().getBounds()) && canEatGhost){
-                            handler.getMusicHandler().playEffect("pacman_chomp.wav");
-                            handler.getScoreManager().addPacmanCurrentScore(500);
-                        }
-                	}
-                    entity.tick();
+                	entity.tick();
+////                	if(entity instanceof Ghost) { //If Pac-Man eats a ghost during the power up, he will get 500 points 
+////                		if ((entity.getBounds().intersects(handler.getPacman().getBounds()) || handler.getPacman().getBounds().intersects(entity.getBounds())) && canEatGhost){
+////                            ((Ghost) entity).onPacManCollision();
+////                        }
+//                	}
                 }
                 ArrayList<BaseStatic> toREmove = new ArrayList<>();
                 for (BaseStatic blocks: handler.getMap().getBlocksOnMap()){
@@ -82,10 +78,13 @@ public class PacManState extends State {
                 
                 if(canEatGhost && eatGhostCooldown >= 0) { //Cooldown for Pac-Man BigDot power up
                 	eatGhostCooldown--;
-                }
-                else {
+                }else{
                 	canEatGhost = false;
                 }
+                
+                if ((handler.getKeyManager().keyJustPressed(KeyEvent.VK_C))){
+            		handler.getGhostSpawner().Spawn();
+        		}
             }else{
                 startCooldown--;
             }
@@ -99,9 +98,6 @@ public class PacManState extends State {
                 Mode = "Menu";
             }
         }
-
-
-
     }
 
     @Override
@@ -110,6 +106,7 @@ public class PacManState extends State {
         if (Mode.equals("Stage")){
             Graphics2D g2 = (Graphics2D) g.create();
             handler.getMap().drawMap(g2);
+        	handler.getGhostSpawner().Spawn();
             g.setColor(Color.WHITE);
             g.setFont(new Font("TimesRoman", Font.PLAIN, 32));
             g.drawString("Score: " + handler.getScoreManager().getPacmanCurrentScore(),(handler.getWidth()/2) + handler.getWidth()/6, 25);
@@ -118,17 +115,11 @@ public class PacManState extends State {
             g.drawImage(Images.start,0,0,handler.getWidth()/2,handler.getHeight(),null);
         }else{
             g.drawImage(Images.intro,0,0,handler.getWidth()/2,handler.getHeight(),null);
-
         }
-        	handler.getGhostSpawner().Spawn();
-       
-
-        
     }
 
     @Override
     public void refresh() {
-
     }
     
     public int getHealth(){return health;}					//Added health getter

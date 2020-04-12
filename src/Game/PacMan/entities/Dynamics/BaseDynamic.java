@@ -40,12 +40,10 @@ public class BaseDynamic extends BaseEntity {
                 }
             }
         }
-
     }
 
 
     protected void move(){
-
         if(direction.equals("Right")){
             x+=velX;
         }else{
@@ -54,7 +52,6 @@ public class BaseDynamic extends BaseEntity {
     }
 
     public void kill(){
-
     }
 
 

@@ -36,9 +36,7 @@ public class Map {
     }
 
     public void addEnemy(BaseDynamic entity){
-
         enemiesOnMap.add(entity);
-
     }
 
     public void drawMap(Graphics2D g2) {
@@ -64,8 +62,10 @@ public class Map {
                         g2.drawImage(((PacMan) entity).downAnim.getCurrentFrame(), entity.x, entity.y, entity.width, entity.height, null);
                         break;
                 }
-            }else if(entity instanceof Ghost && handler.getPacManState().canEatGhost) {//Added blue ghost animation when Pac-Man eats a BigDot
+            }else if(entity instanceof Ghost && handler.getPacManState().canEatGhost && ((Ghost)entity).stayInSpawnerCooldown<0) {//Added blue ghost animation when Pac-Man eats a BigDot
             		g2.drawImage(((Ghost) entity).ghostBlueAnim.getCurrentFrame(), entity.x, entity.y, entity.width, entity.height, null);
+            }else if(entity instanceof Ghost && (((Ghost) entity).stayInSpawnerCooldown >= 0)) {
+            		g2.drawImage(Images.ghostEyes, entity.x, entity.y, entity.width, entity.height, null);
             }
             else {
                 g2.drawImage(entity.sprite, entity.x, entity.y, entity.width, entity.height, null);

@@ -1,7 +1,6 @@
 package Game.PacMan.entities.Statics;
 
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -11,11 +10,10 @@ import Main.Handler;
 import Resources.Images;
 
 
-public class GhostSpawner extends BaseStatic{
+public class GhostSpawner extends BaseStatic{//Removed BufferedImage import and variable as it wasn't necessary
 
-	private static BufferedImage sprite;
 	public GhostSpawner(int x, int y, int width, int height, Handler handler) {
-		super(x, y, width, height, handler, sprite);
+		super(x, y, width, height, handler, null);
 		// TODO Auto-generated constructor stub
 	}
 		public void Spawn(){
@@ -25,49 +23,40 @@ public class GhostSpawner extends BaseStatic{
 				Ghost ghosty = new Ghost(x,y,18,18, handler, Images.ghost[i]);
 				handler.getMap().addEnemy(ghosty);
 				switch(i) {
-				case 0:
-					ghosty.setSpeed(1);
-					break;
-				case 1:
-					ghosty.setSpeed(1.5);
-					break;
-				case 2:
-					ghosty.setSpeed(2);
-					break;
-				case 3:
-					ghosty.setSpeed(2.5);
+					case 0:
+						ghosty.setSpeed(1);
+						break;
+					case 1:
+						ghosty.setSpeed(1.5);
+						break;
+					case 2:
+						ghosty.setSpeed(2);
+						break;
+					case 3:
+						ghosty.setSpeed(2.5);
+						break;
 				}
 			}
 
 			if((handler.getKeyManager().keyJustPressed(KeyEvent.VK_C))) {
-			int id = random.nextInt(4);
-			Ghost randGhost = new Ghost(x,y,18,18, handler, Images.ghost[id]);
-			handler.getMap().addEnemy(randGhost);
-			switch(id) {
-			case 0:
-				randGhost.setSpeed(1);
-				break;
-			case 1:
-				randGhost.setSpeed(1.5);
-				break;
-			case 2:
-				randGhost.setSpeed(2);
-				break;
-			case 3:
-				randGhost.setSpeed(2.5);
+				int ghostID = random.nextInt(4); //Changed id to ghostID
+				Ghost randGhost = new Ghost(x,y,18,18, handler, Images.ghost[ghostID]);
+				handler.getMap().addEnemy(randGhost);
+				switch(ghostID) { //Uses ghostID instead of id
+					case 0:
+						randGhost.setSpeed(1);
+						break;
+					case 1:
+						randGhost.setSpeed(1.5);
+						break;
+					case 2:
+						randGhost.setSpeed(2);
+						break;
+					case 3:
+						randGhost.setSpeed(2.5);
+						break;
+					}
 				}
-			}
 		}
 }
-		
-			
-
-		
-
-//		@Override
-//		public void tick() {
-//			
-//			
-//		}
-
 
