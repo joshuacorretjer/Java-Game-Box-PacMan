@@ -96,10 +96,10 @@ public class PacManState extends State {
                 	canEatGhost = false;
                 }
                 
-                if ((handler.getKeyManager().keyJustPressed(KeyEvent.VK_C))){
+                if ((handler.getKeyManager().keyJustPressed(KeyEvent.VK_C))){ //Spawns ghosts
             		handler.getGhostSpawner().Spawn();
         		}
-            	if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_BACK_SPACE)) {
+            	if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_BACK_SPACE)) { //Press Backspace to restart the game (does not affect the high-score)
             		this.restartGame();
             	}
             }else{
