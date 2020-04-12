@@ -9,6 +9,8 @@ import Game.PacMan.entities.Statics.BigDot;
 import Game.PacMan.entities.Statics.Cherry;
 import Game.PacMan.entities.Statics.Dot;
 import Game.PacMan.entities.Statics.GhostSpawner;
+import Game.PacMan.entities.Statics.Orange;
+import Game.PacMan.entities.Statics.Strawberry;
 import Main.Handler;
 import Resources.Images;
 
@@ -21,6 +23,8 @@ public class PacManState extends State {
     private UIManager uiManager;
     public String Mode = "Intro";
     public int startCooldown = 60*4;//seven seconds for the music to finish
+    public boolean spawn = true;
+    int counter=4;
 
     public PacManState(Handler handler){
         super(handler);
@@ -31,9 +35,13 @@ public class PacManState extends State {
 
     @Override
     public void tick() {
-    	if ((handler.getKeyManager().keyJustPressed(KeyEvent.VK_C))){
+    	if(spawn) {
     		handler.getGhostSpawner().Spawn();
-		}
+    	}else {
+        	if ((handler.getKeyManager().keyJustPressed(KeyEvent.VK_C))){
+        		handler.getGhostSpawner().Spawn();
+    		}
+    	}
                 	
         if (Mode.equals("Stage")){
             if (startCooldown<=0) {
@@ -54,9 +62,9 @@ public class PacManState extends State {
                             toREmove.add(blocks);
                             handler.getScoreManager().addPacmanCurrentScore(100);
                         }
-                    }else if(blocks instanceof Cherry) {
+                    }else if(blocks instanceof Cherry || blocks instanceof Strawberry || blocks instanceof Orange) {
                     	if (blocks.getBounds().intersects(handler.getPacman().getBounds())) {
-                    		handler.getMusicHandler().playEffect("pacman_chomp.wav");
+                    		handler.getMusicHandler().playEffect("pacman_eatfruit.wav");
                             toREmove.add(blocks);
                             handler.getScoreManager().addPacmanCurrentScore(120);
                     	}
@@ -78,9 +86,6 @@ public class PacManState extends State {
                 Mode = "Menu";
             }
         }
-
-
-
     }
 
     @Override
@@ -99,7 +104,6 @@ public class PacManState extends State {
             g.drawImage(Images.intro,0,0,handler.getWidth()/2,handler.getHeight(),null);
 
         }
-        	handler.getGhostSpawner().Spawn();
        
 
         

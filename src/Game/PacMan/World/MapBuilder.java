@@ -9,6 +9,8 @@ import Game.PacMan.entities.Statics.BoundBlock;
 import Game.PacMan.entities.Statics.Cherry;
 import Game.PacMan.entities.Statics.Dot;
 import Game.PacMan.entities.Statics.GhostSpawner;
+import Game.PacMan.entities.Statics.Orange;
+import Game.PacMan.entities.Statics.Strawberry;
 import Main.Handler;
 import Resources.Images;
 
@@ -47,9 +49,16 @@ public class MapBuilder {
 					
 				}else if(currentPixel == dotC){
 					Random random = new Random();
-					if(random.nextInt(30) == 3) {
+					int rand = random.nextInt(30);
+					if(rand == 3) {
 						BaseStatic cher = new Cherry(xPos,yPos,pixelMultiplier,pixelMultiplier,handler);
 						mapInCreation.addBlock(cher);
+					}else if(rand == 11) {
+						BaseStatic strawberry = new Strawberry(xPos,yPos,pixelMultiplier,pixelMultiplier,handler);
+						mapInCreation.addBlock(strawberry);
+					}else if (rand == 23) {
+						BaseStatic orange = new Orange(xPos,yPos,pixelMultiplier,pixelMultiplier,handler);
+						mapInCreation.addBlock(orange);
 					}else {
 						BaseStatic dot = new Dot(xPos,yPos,pixelMultiplier,pixelMultiplier,handler);
 						mapInCreation.addBlock(dot);
