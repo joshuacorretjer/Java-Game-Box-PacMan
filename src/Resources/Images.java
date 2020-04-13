@@ -143,9 +143,9 @@ public class Images {
             map1 = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/PacManMaps/map1.png"));
             
             ghost[0] = pacmanSpriteSheet.crop(456,64,16,16);
-            ghost[1] = pacmanSpriteSheet.crop(456,80,16,16);
-            ghost[2] = pacmanSpriteSheet.crop(456,96,16,16);
-            ghost[3] = pacmanSpriteSheet.crop(456,112,16,16);
+            ghost[1] = pacmanSpriteSheet.crop(456,96,16,16);
+            ghost[2] = pacmanSpriteSheet.crop(456,112,16,16);
+            ghost[3] = pacmanSpriteSheet.crop(456,80,16,16);
             
             ghostEyes = pacmanSpriteSheet.crop(586,81,16,16);
             

@@ -58,15 +58,8 @@ public class PacManState extends State {
                 	
         if (Mode.equals("Stage")){
             if (startCooldown<=0) {
-            	//**
-            	if(dotCount == 0) { //Map resets properly once there are no more fruits or dots
-            		handler.getMap().reset();
-            		level++; //Level goes up each time it resets
-            	}else {
-            		dotCount = 0;  //Resets the dot count
-            	}
                 for (BaseDynamic entity : handler.getMap().getEnemiesOnMap()) {
-                    entity.tick();
+                	entity.tick();
                 }
                 ArrayList<BaseStatic> toREmove = new ArrayList<>();
                 for (BaseStatic blocks: handler.getMap().getBlocksOnMap()){
@@ -102,6 +95,15 @@ public class PacManState extends State {
                 }else{
                 	canEatGhost = false;
                 }
+                //
+            	if(dotCount == 0) { //Map resets properly once there are no more fruits or dots
+            		handler.getMap().reset();
+            		level++; //Level goes up each time it resets
+            	}
+            	else {
+            		dotCount = 0;  //Resets the dot count
+            	}
+            	//
 
             	if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_BACK_SPACE)) { //Press Backspace to restart the game (does not affect the high-score)
             		this.restartGame();

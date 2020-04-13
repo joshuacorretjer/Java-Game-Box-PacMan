@@ -56,58 +56,5 @@ public class GhostSpawner extends BaseStatic{
 					randGhost.setSpeed(4);
 					}
 			}
-//			Random random = new Random();
-//			ArrayList<BaseDynamic> ghosts = handler.getMap().getEnemiesOnMap();
-//			for(int i = 0;ghosts.size()<5;i++) {
-//				Ghost ghosty = new Ghost(x,y,18,18, handler, Images.ghost[i]);
-//				handler.getMap().addEnemy(ghosty);
-//				switch(i) {
-//				case 0:
-//					ghosty.setSpeed(1);
-//					break;
-//				case 1:
-//					ghosty.setSpeed(2);
-//					break;
-//				case 2:
-//					ghosty.setSpeed(3);
-//					break;
-//				case 3:
-//					ghosty.setSpeed(4);
-//				}
-//			}
-//
-//			
-//			double id = (Math.random()*10)%4;
-//			Ghost randGhost = new Ghost(x,y,18,18, handler, Images.ghost[(int)id]);
-//			handler.getMap().addEnemy(randGhost);
-//			switch((int)id) {
-//			case 0:
-//				randGhost.setSpeed(1);
-//				break;
-//			case 1:
-//				randGhost.setSpeed(2);
-//				break;
-//			case 2:
-//				randGhost.setSpeed(3);
-//				break;
-//			case 3:
-//				randGhost.setSpeed(4);
-//				}
-			
-			
-			
 			}
 		}
-
-		
-			
-
-		
-
-//		@Override
-//		public void tick() {
-//			
-//			
-//		}
-
-
