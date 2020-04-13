@@ -8,7 +8,6 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import Display.UI.UIManager;
-import Game.PacMan.World.Map;
 import Game.PacMan.World.MapBuilder;
 import Game.PacMan.entities.Dynamics.BaseDynamic;
 import Game.PacMan.entities.Dynamics.Ghost;
@@ -16,6 +15,8 @@ import Game.PacMan.entities.Statics.BaseStatic;
 import Game.PacMan.entities.Statics.BigDot;
 import Game.PacMan.entities.Statics.Cherry;
 import Game.PacMan.entities.Statics.Dot;
+import Game.PacMan.entities.Statics.Orange;
+import Game.PacMan.entities.Statics.Strawberry;
 import Main.Handler;
 import Resources.Images;
 
@@ -23,13 +24,11 @@ public class PacManState extends State {
 
     private UIManager uiManager;
     public String Mode = "Intro";
-    public boolean canEatGhost = false; //Added a variable if Pac-Man can eat ghosts
-    public int level = 1, health = 3, eatGhostCooldown = 15*60, startCooldown = 60*4;//seven seconds for the music to finish
-    public int dotCount = 0; //Added a dot counter to see if there are any fruits or dots on the map
-    public int pacmanSpawnX, pacmanSpawnY;  //Saves Pac-Man's spawner coordinates
-    //Added health to PacManState so the map reset doesn't reset it and cooldown for Pac-Man eating ghosts
+    public boolean canEatGhost = false, startSpawn = true; //Booleans for able to eat ghost and to spawn first 4 ghosts
+    public int eatGhostCooldown = 15*60, startCooldown = 60*4;//seven seconds for the music to finish
+    public int dotCount = 0, level = 1, health = 3; //Added lives (health), levels, and a dot counter (so game restarts when no dots are on map)
+    public int pacmanSpawnX, pacmanSpawnY;  //Saves Pac-Man's spawn coordinates
     
-    public boolean spawn = true;
     
     public PacManState(Handler handler){
         super(handler);
@@ -38,31 +37,12 @@ public class PacManState extends State {
 
     @Override
     public void tick() {
-    	if(spawn) {
-    		handler.getGhostSpawner().Spawn();
-    	}else {
-        	if ((handler.getKeyManager().keyJustPressed(KeyEvent.VK_C))){
+    	if (Mode.equals("Stage")){
+    		if(startSpawn) { //Spawns the 4 ghosts at the start
         		handler.getGhostSpawner().Spawn();
-    		}
-    	}
-    	if(health < 0) { //If Pac-Man loses all 3 lives and dies one more time, it is game over and switches to EndGameState
-    		if(handler.getScoreManager().getPacmanCurrentScore() > handler.getScoreManager().getPacmanHighScore()) { //Updates high-score if current score is bigger
-    			handler.getScoreManager().setPacmanHighScore(handler.getScoreManager().getPacmanCurrentScore());
-    		}
-            handler.getMusicHandler().startMusic("space.wav");
-            
-    		handler.getScoreManager().setPacmanCurrentScore(0);
-    		State.setState(handler.getEndGameState());
-    	}else if (Mode.equals("Stage")){
+        	}
+    		
             if (startCooldown<=0) {
-            	if(dotCount == 0) { //Map resets properly once there are no more fruits or dots
-            		handler.getMap().reset();
-            		level++; //Level goes up each time it resets
-            	}
-            	else {
-            		dotCount = 0;  //Resets the dot count
-            	}
-            	
                 for (BaseDynamic entity : handler.getMap().getEnemiesOnMap()) {
                 	entity.tick();
                 }
@@ -99,16 +79,41 @@ public class PacManState extends State {
                     handler.getMap().getBlocksOnMap().remove(removing);
                 }
                 
-                if(canEatGhost && eatGhostCooldown >= 0) { //Cooldown for Pac-Man BigDot power up
+                //Map resets once there are no more fruits or dots
+                if(dotCount == 0) {
+            		handler.getMap().reset();
+            		startSpawn = true;
+            		level++; //Level goes up each time it resets
+            	}
+            	else {
+            		dotCount = 0;  //Resets the dot count
+            	}
+                
+                //Cooldown for Pac-Man BigDot power up
+                if(canEatGhost && eatGhostCooldown >= 0) {
                 	eatGhostCooldown--;
                 }else{
                 	canEatGhost = false;
                 }
                 
-                if ((handler.getKeyManager().keyJustPressed(KeyEvent.VK_C))){ //Spawns ghosts
-            		handler.getGhostSpawner().Spawn();
-        		}
-            	if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_BACK_SPACE)) { //Press Backspace to restart the game (does not affect the high-score)
+                //If Pac-Man loses all 3 lives and dies one last time, switches to EndGameState
+                if(health < 0) {
+                	//Updates high-score if current score is bigger
+            		if(handler.getScoreManager().getPacmanCurrentScore() > handler.getScoreManager().getPacmanHighScore()) { 
+            			handler.getScoreManager().setPacmanHighScore(handler.getScoreManager().getPacmanCurrentScore());
+            		}
+                    handler.getMusicHandler().startMusic("space.wav");
+            		handler.getScoreManager().setPacmanCurrentScore(0);
+            		State.setState(handler.getEndGameState());
+            	}
+                
+                //Press C to spawn one ghost
+                if ((handler.getKeyManager().keyJustPressed(KeyEvent.VK_C))){
+                	handler.getGhostSpawner().Spawn();
+            	}
+                
+                //Press Backspace to restart the game (does not affect high-score)
+            	if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_BACK_SPACE)) { 
             		this.restartGame();
             	}
             }else{
@@ -135,12 +140,13 @@ public class PacManState extends State {
 
         if (Mode.equals("Stage")){
             Graphics2D g2 = (Graphics2D) g.create();
-            handler.getMap().drawMap(g2);
             g.setColor(Color.WHITE);
             g.setFont(new Font("TimesRoman", Font.PLAIN, 32));
             g.drawString("Score: " + handler.getScoreManager().getPacmanCurrentScore(),(handler.getWidth()/2) + handler.getWidth()/6, 25);
             g.drawString("High-Score: " + handler.getScoreManager().getPacmanHighScore(),(handler.getWidth()/2) + handler.getWidth()/6, 75);
             g.drawString("Level: " + level, (handler.getWidth()/2) + handler.getWidth()/6, 125);
+            handler.getMap().drawMap(g2);
+
         }else if (Mode.equals("Menu")){
             g.drawImage(Images.start,0,0,handler.getWidth()/2,handler.getHeight(),null);
         }else{
@@ -154,6 +160,7 @@ public class PacManState extends State {
     
     public void restartGame() { //Restarts the game (does not affect High-Score)
     	canEatGhost = false;
+    	startSpawn = true;
     	Mode = "Intro";
     	health = 3;
     	level = 1;
@@ -162,7 +169,7 @@ public class PacManState extends State {
     	handler.getScoreManager().setPacmanCurrentScore(0);
     }
     
-    public void resetPacMan() {//Pac-Man and ghosts go back to their spawners if he dies
+    public void resetPacMan() { //Pac-Man and ghosts go back to their spawns if he dies
     	handler.getPacman().setX(pacmanSpawnX);
     	handler.getPacman().setY(pacmanSpawnY);
     	handler.getPacman().facing = "Left";

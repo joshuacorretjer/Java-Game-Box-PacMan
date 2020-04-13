@@ -26,7 +26,7 @@ public class MapBuilder {
 	public static int ghostC = new Color(25, 255,0).getRGB();
 	public static int dotC = new Color(255, 10, 0).getRGB();
 	public static int bigDotC = new Color(167, 0, 150).getRGB();
-	Random random = new Random();
+	public static Random random = new Random();
 
 	public static Map createMap(BufferedImage mapImage, Handler handler){
 		Map mapInCreation = new Map(handler);
@@ -46,19 +46,22 @@ public class MapBuilder {
 					BaseStatic ghost = new GhostSpawner(xPos, yPos, pixelMultiplier, pixelMultiplier, handler);
 					mapInCreation.addBlock(ghost);
 					handler.setGhostSpawner((GhostSpawner) ghost);
-					
 				}else if(currentPixel == dotC){
-					Random random = new Random();
-					int rand = random.nextInt(30);
-					if(rand == 3) {
-						BaseStatic cher = new Cherry(xPos,yPos,pixelMultiplier,pixelMultiplier,handler);
-						mapInCreation.addBlock(cher);
-					}else if(rand == 11) {
-						BaseStatic strawberry = new Strawberry(xPos,yPos,pixelMultiplier,pixelMultiplier,handler);
-						mapInCreation.addBlock(strawberry);
-					}else if (rand == 23) {
-						BaseStatic orange = new Orange(xPos,yPos,pixelMultiplier,pixelMultiplier,handler);
-						mapInCreation.addBlock(orange);
+					if((random.nextInt(30))%30 == 0) { //Updated the 
+						switch(random.nextInt(3)) {
+						case 0:
+							BaseStatic cher = new Cherry(xPos,yPos,pixelMultiplier,pixelMultiplier,handler);
+							mapInCreation.addBlock(cher);
+							break;
+						case 1:
+							BaseStatic strawberry = new Strawberry(xPos,yPos,pixelMultiplier,pixelMultiplier,handler);
+							mapInCreation.addBlock(strawberry);
+							break;
+						case 2:
+							BaseStatic orange = new Orange(xPos,yPos,pixelMultiplier,pixelMultiplier,handler);
+							mapInCreation.addBlock(orange);
+							break;
+						}
 					}else {
 						BaseStatic dot = new Dot(xPos,yPos,pixelMultiplier,pixelMultiplier,handler);
 						mapInCreation.addBlock(dot);
@@ -68,7 +71,6 @@ public class MapBuilder {
 					mapInCreation.addBlock(bigDot);
 				}
 			}
-
 		}
 		return mapInCreation;
 	}

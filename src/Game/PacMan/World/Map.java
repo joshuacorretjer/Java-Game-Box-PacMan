@@ -41,8 +41,8 @@ public class Map {
 
     public void drawMap(Graphics2D g2) {
         for (BaseStatic block:blocksOnMap) {
-        	if(block instanceof BigDot && blink%60 <= 29){} //Animation for BigDot and it blinks each second
-        	else {
+        	if(block instanceof BigDot && blink%60 <= 29){ //Animation for BigDot and it blinks each second
+        	}else {
         		g2.drawImage(block.sprite, block.x, block.y, block.width, block.height, null);
         	}
         }
@@ -66,9 +66,8 @@ public class Map {
             		g2.drawImage(((Ghost) entity).ghostBlueAnim.getCurrentFrame(), entity.x, entity.y, entity.width, entity.height, null);
             }else if(entity instanceof Ghost && (((Ghost) entity).stayInSpawnerCooldown >= 0)) {
             		g2.drawImage(Images.ghostEyes, entity.x, entity.y, entity.width, entity.height, null);
-            }
-            else {
-                g2.drawImage(entity.sprite, entity.x, entity.y, entity.width, entity.height, null);
+            }else {
+                	g2.drawImage(entity.sprite, entity.x, entity.y, entity.width, entity.height, null);
             }
         }
         for (int i = 0; i< handler.getPacManState().health;i++) {//Draws the current remaining lives of Pac-Man
