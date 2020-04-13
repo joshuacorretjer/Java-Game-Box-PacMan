@@ -21,6 +21,8 @@ public class Ghost extends BaseDynamic{
     protected double velX,velY,speed;
     public String facing = "Up";
     public boolean moving = true,turnFlag = false;
+    public Animation ghostBlueAnim; //Removed variables belonging to only Pac-Man
+    public int stayInSpawnerCooldown = -1; //Cooldown so ghosts stay in spawner
     public Animation leftAnim,rightAnim,upAnim,downAnim;
     int turnCooldown = 30;
     
@@ -28,6 +30,7 @@ public class Ghost extends BaseDynamic{
 
     public Ghost(int x, int y, int width, int height, Handler handler, BufferedImage ghost) {
         super(x, y, width, height, handler,ghost);
+        ghostBlueAnim = new Animation(256,Images.ghostBlue); //Animation for blue ghost during power-up
         leftAnim = new Animation(128,Images.pacmanLeft);
         rightAnim = new Animation(128,Images.pacmanRight);
         upAnim = new Animation(128,Images.pacmanUp);
@@ -36,6 +39,17 @@ public class Ghost extends BaseDynamic{
 
     @Override
     public void tick(){
+    	if(handler.getPacManState().canEatGhost) {
+    		ghostBlueAnim.tick();
+    		
+    		//ghostBounds = toup?
+            if(stayInSpawnerCooldown >= 0) { //Makes sure that ghost stays in spawn after being eaten
+            	velY=0;
+            	stayInSpawnerCooldown--;
+            }else {
+                velY = speed;
+            }
+    	}
 
         switch (facing){
             case "Right":
@@ -107,14 +121,13 @@ public class Ghost extends BaseDynamic{
 
         for(BaseDynamic enemy : enemies){
             Rectangle enemyBounds = !toUp ? enemy.getTopBounds() : enemy.getBottomBounds();
-            if (ghostBounds.intersects(enemyBounds)) {
-                ghostDies = true;
-                break;
+            if(enemy instanceof PacMan && ghostBounds.intersects(enemyBounds)) {//Ensuring that enemy is Pac-Man
+        		ghostDies = true;
+        		break;
             }
         }
-
         if(ghostDies) {
-            handler.getMap().reset();
+        	this.onPacManCollision();//Function for what happens if it collides with Pac-Man
         }
     }
 
@@ -155,14 +168,13 @@ public class Ghost extends BaseDynamic{
 
         for(BaseDynamic enemy : enemies){
             Rectangle enemyBounds = !toRight ? enemy.getRightBounds() : enemy.getLeftBounds();
-            if (ghostBounds.intersects(enemyBounds)) {
-                ghostDies = true;
-                break;
+            if(ghostBounds.intersects(enemyBounds) && (enemy instanceof PacMan)) {//Ensuring that enemy is Pac-Man
+            	ghostDies = true;
+            	break;
             }
         }
-
         if(ghostDies) {
-            handler.getMap().reset();
+           this.onPacManCollision();//Function for what happens if it collides with Pac-Man
         }else {
 
             for (BaseStatic brick : bricks) {
@@ -210,23 +222,39 @@ public class Ghost extends BaseDynamic{
     }
 
 
-    public double getVelX() {
-        return velX;
+    public void onPacManCollision() {//Function for ghost collision with Pac-Man
+       	if(handler.getPacManState().canEatGhost) {//If ghost can be eaten, it is sent back to and stays in spawner, points are added, and sound plays
+               stayInSpawnerCooldown = (random.nextInt(5)+1)*60;
+       		this.x = handler.getGhostSpawner().x;    
+       		this.y = handler.getGhostSpawner().y;
+       		facing = "Up";
+       		
+               handler.getScoreManager().addPacmanCurrentScore(500);
+               handler.getMusicHandler().playEffect("pacman_eatghost.wav");
+       	}
+       	else {//If ghost can't be eaten, Pac-Man dies
+       		handler.getPacManState().health--;
+       		handler.getPacManState().resetPacMan();//Pac-Man is now the one that gets reset
+       	}
+       }
+
+       public double getVelX() {
+           return velX;
+       }
+       public double getVelY() {
+           return velY;
+       }
+
+    	public double getSpeed() {//Ghost speed getter
+    		return speed;
+    	}
+
+    	public void setSpeed(double speed) {//Ghost speed setter
+    		this.speed = speed;
+    	}
+
+//    	public BufferedImage getGhost() {
+//       	return this.sprite;
+    //   }
+
     }
-    public double getVelY() {
-        return velY;
-    }
-
-	public double getSpeed() {
-		return speed;
-	}
-
-	public void setSpeed(double speed) {
-		this.speed = speed;
-	}
-
-	public BufferedImage[] getGhost() {
-    	return Images.ghost;
-    }
-
-}

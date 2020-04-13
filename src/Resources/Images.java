@@ -29,6 +29,8 @@ public class Images {
 
     public static BufferedImage map1;
     public static BufferedImage[] ghost;
+    public static BufferedImage[] ghostBlue; //Added buffered image of animation of ghosts when Pac-Man eats a BigDot
+    public static BufferedImage ghostEyes; //Added ghost eyes image for their death*
     public static BufferedImage[] pacmanDots;
     public static BufferedImage cherry;
     public static BufferedImage strawberry;
@@ -62,6 +64,7 @@ public class Images {
         galagaEnemyDeath = new BufferedImage[5];
         galagaEnemyBee = new BufferedImage[8];
 
+        ghostBlue = new BufferedImage[2]; //Buffered image of ghosts for when Pac-Man eats a BigDot
         pacmanDots = new BufferedImage[2];
         pacmanRight = new BufferedImage[2];
         pacmanLeft = new BufferedImage[2];
@@ -138,11 +141,16 @@ public class Images {
             pacmanImageSheet = ImageIO.read(getClass().getResourceAsStream("/UI/SpriteSheets/PacMan/Background.png"));
             pacmanSpriteSheet = new SpriteSheet(pacmanImageSheet);
             map1 = ImageIO.read(getClass().getResourceAsStream("/UI/Backgrounds/PacManMaps/map1.png"));
+            
             ghost[0] = pacmanSpriteSheet.crop(456,64,16,16);
             ghost[1] = pacmanSpriteSheet.crop(456,80,16,16);
             ghost[2] = pacmanSpriteSheet.crop(456,96,16,16);
             ghost[3] = pacmanSpriteSheet.crop(456,112,16,16);
             
+            ghostEyes = pacmanSpriteSheet.crop(586,81,16,16);
+            
+            ghostBlue[0] = pacmanSpriteSheet.crop(584, 64, 16, 16); //Crops for the blue ghost animation
+            ghostBlue[1] = pacmanSpriteSheet.crop(616, 64, 16, 16);
             
             pacmanDots[0] = pacmanSpriteSheet.crop(643,18,16,16);
             pacmanDots[1] = pacmanSpriteSheet.crop(623,18,16,16);

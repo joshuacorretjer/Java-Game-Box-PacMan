@@ -39,10 +39,10 @@ public class GhostSpawner extends BaseStatic{
 				}
 
 			}else {
-				double id = (Math.random()*10)%4;
-				Ghost randGhost = new Ghost(x,y,18,18, handler, Images.ghost[(int)id]);
+				double ghostID = (Math.random()*10)%4;
+				Ghost randGhost = new Ghost(x,y,18,18, handler, Images.ghost[(int)ghostID]);
 				handler.getMap().addEnemy(randGhost);
-				switch((int)id) {
+				switch((int)ghostID) {
 				case 0:
 					randGhost.setSpeed(1);
 					break;
