@@ -34,6 +34,8 @@ public class Images {
     public static BufferedImage ghostEyes; //Added ghost eyes image for their death*
     public static BufferedImage[] pacmanDots;
     public static BufferedImage cherry;
+    public static BufferedImage strawberry;
+    public static BufferedImage orange;
     public static BufferedImage[] pacmanRight;
     public static BufferedImage[] pacmanLeft;
     public static BufferedImage[] pacmanUp;
@@ -153,6 +155,8 @@ public class Images {
             pacmanDots[1] = pacmanSpriteSheet.crop(623,18,16,16);
             
             cherry = pacmanSpriteSheet.crop(488,48,16,16);
+            strawberry = pacmanSpriteSheet.crop(504,48,16,16);
+            orange = pacmanSpriteSheet.crop(520,48,16,16);
 
             bound[0] = pacmanSpriteSheet.crop(603,18,16,16);//single
             bound[1] = pacmanSpriteSheet.crop(615,37,16,16);//right open

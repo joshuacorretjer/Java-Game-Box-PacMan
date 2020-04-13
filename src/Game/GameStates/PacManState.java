@@ -29,6 +29,8 @@ public class PacManState extends State {
     public int pacmanSpawnX, pacmanSpawnY;  //Saves Pac-Man's spawner coordinates
     //Added health to PacManState so the map reset doesn't reset it and cooldown for Pac-Man eating ghosts
     
+    public boolean spawn = true;
+    
     public PacManState(Handler handler){
         super(handler);
         handler.setMap(MapBuilder.createMap(Images.map1, handler));
@@ -36,6 +38,13 @@ public class PacManState extends State {
 
     @Override
     public void tick() {
+    	if(spawn) {
+    		handler.getGhostSpawner().Spawn();
+    	}else {
+        	if ((handler.getKeyManager().keyJustPressed(KeyEvent.VK_C))){
+        		handler.getGhostSpawner().Spawn();
+    		}
+    	}
     	if(health < 0) { //If Pac-Man loses all 3 lives and dies one more time, it is game over and switches to EndGameState
     		if(handler.getScoreManager().getPacmanCurrentScore() > handler.getScoreManager().getPacmanHighScore()) { //Updates high-score if current score is bigger
     			handler.getScoreManager().setPacmanHighScore(handler.getScoreManager().getPacmanCurrentScore());
@@ -77,9 +86,9 @@ public class PacManState extends State {
                             eatGhostCooldown = 15*60;
                         }
                         dotCount++;
-                    }else if(blocks instanceof Cherry) {
+                    }else if(blocks instanceof Cherry || blocks instanceof Strawberry || blocks instanceof Orange) {
                     	if (blocks.getBounds().intersects(handler.getPacman().getBounds())) {
-                    		handler.getMusicHandler().playEffect("pacman_chomp.wav");
+                    		handler.getMusicHandler().playEffect("pacman_eatfruit.wav");
                             toREmove.add(blocks);
                             handler.getScoreManager().addPacmanCurrentScore(120);
                     	}
@@ -127,7 +136,6 @@ public class PacManState extends State {
         if (Mode.equals("Stage")){
             Graphics2D g2 = (Graphics2D) g.create();
             handler.getMap().drawMap(g2);
-        	handler.getGhostSpawner().Spawn();
             g.setColor(Color.WHITE);
             g.setFont(new Font("TimesRoman", Font.PLAIN, 32));
             g.drawString("Score: " + handler.getScoreManager().getPacmanCurrentScore(),(handler.getWidth()/2) + handler.getWidth()/6, 25);
