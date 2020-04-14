@@ -42,16 +42,17 @@ public class MapBuilder {
 					BaseDynamic PacMan = new PacMan(xPos,yPos,pixelMultiplier,pixelMultiplier,handler);
 					mapInCreation.addEnemy(PacMan);
 					handler.setPacman((Game.PacMan.entities.Dynamics.PacMan) PacMan);
-				}else if(currentPixel == ghostC){
+				}else if(currentPixel == ghostC){//Changed Ghost for GhostSpawner.
 					BaseStatic ghost = new GhostSpawner(xPos, yPos, pixelMultiplier, pixelMultiplier, handler);
 					mapInCreation.addBlock(ghost);
 					handler.setGhostSpawner((GhostSpawner) ghost);
 				}else if(currentPixel == dotC){
-					if((random.nextInt(30))%30 == 0) { //Updated the 
+					if((random.nextInt(30))%30 == 0) { 
+						//Randomly picks if the current pixel will be a fruit or a dot, with a 1/30 chance of being a fruit.
 						switch(random.nextInt(3)) {
 						case 0:
-							BaseStatic cher = new Cherry(xPos,yPos,pixelMultiplier,pixelMultiplier,handler);
-							mapInCreation.addBlock(cher);
+							BaseStatic cherry = new Cherry(xPos,yPos,pixelMultiplier,pixelMultiplier,handler);
+							mapInCreation.addBlock(cherry);
 							break;
 						case 1:
 							BaseStatic strawberry = new Strawberry(xPos,yPos,pixelMultiplier,pixelMultiplier,handler);

@@ -51,7 +51,8 @@ public class GameState extends State {
         }));
 
         uiManager.addObjects(new UIImageButton(((handler.getWidth() / 2)) - ((handler.getWidth() / 12)) , (handler.getHeight() /2)-(handler.getHeight() /24), handler.getWidth()/6, handler.getHeight()/6, Images.pacmanLogo, new ClickListlener() {
-            @Override
+            //Changed the logo for a new one.
+        	@Override
             public void onClick() {
                 handler.getMouseManager().setUimanager(null);
                 handler.getMusicHandler().stopMusic();

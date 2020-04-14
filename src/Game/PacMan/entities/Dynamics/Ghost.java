@@ -16,7 +16,7 @@ public class Ghost extends BaseDynamic{
 
 	Random random = new Random();
     protected double velX,velY,speed;
-    public String facing = "Up";
+    public String facing = "Up";//Changed the direction of the ghost to "Up" so that they can leave the spawner.
     public boolean moving = true;
     public Animation ghostBlueAnim; //Removed variables belonging to only Pac-Man
     public int stayInSpawnerCooldown = -1; //Cooldown so ghosts stay in spawner
@@ -73,6 +73,7 @@ public class Ghost extends BaseDynamic{
                 Rectangle brickBounds = !toUp ? brick.getTopBounds() : brick.getBottomBounds();
                 if (ghostBounds.intersects(brickBounds)) {
                     velY = 0;
+                  //Added switch case for when the ghost collides with a wall, it randomly picks direction to move.
         			switch(random.nextInt(2)){
         			case 0:
         				facing = "Left";
@@ -126,6 +127,7 @@ public class Ghost extends BaseDynamic{
                     Rectangle brickBounds = !toRight ? brick.getRightBounds() : brick.getLeftBounds();
                     if (ghostBounds.intersects(brickBounds)) {
                         velX = 0;
+                      //Added switch case for when the ghost collides with a wall, it randomly picks direction to move.
             			switch(random.nextInt(2)){
 	            			case 0:
 	            				facing = "Down";
@@ -176,9 +178,5 @@ public class Ghost extends BaseDynamic{
 	public void setSpeed(double speed) {//Ghost speed setter
 		this.speed = speed;
 	}
-
-//	public BufferedImage getGhost() {
-//    	return this.sprite;
-//    }
 
 }

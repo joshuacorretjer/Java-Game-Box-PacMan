@@ -13,7 +13,6 @@ public class GhostSpawner extends BaseStatic{//Removed BufferedImage import and 
 	public Random random = new Random();
 	public GhostSpawner(int x, int y, int width, int height, Handler handler) {
 		super(x, y, width, height, handler, null);
-		// TODO Auto-generated constructor stub
 	}
 		public void Spawn(){
 			//Spawns the first 4 ghosts at the start of the game

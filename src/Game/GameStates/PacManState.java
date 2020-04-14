@@ -57,7 +57,7 @@ public class PacManState extends State {
                         dotCount++;
                     }else if (blocks instanceof BigDot){
                         if (blocks.getBounds().intersects(handler.getPacman().getBounds())){
-                            handler.getMusicHandler().playEffect("pacman_chomp.wav");
+                            handler.getMusicHandler().playEffect("pacman_eatbigdot.wav");//Changed the audio for when PacMan eats the big dot and ghost turn blue.
                             toREmove.add(blocks);
                             handler.getScoreManager().addPacmanCurrentScore(100);
                             
@@ -66,7 +66,7 @@ public class PacManState extends State {
                             eatGhostCooldown = 15*60;
                         }
                         dotCount++;
-                    }else if(blocks instanceof Cherry || blocks instanceof Strawberry || blocks instanceof Orange) {
+                    }else if(blocks instanceof Cherry || blocks instanceof Strawberry || blocks instanceof Orange) {//Added if statement for when PacMan collides with fruits.
                     	if (blocks.getBounds().intersects(handler.getPacman().getBounds())) {
                     		handler.getMusicHandler().playEffect("pacman_eatfruit.wav");
                             toREmove.add(blocks);
