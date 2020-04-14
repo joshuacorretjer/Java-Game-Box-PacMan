@@ -63,7 +63,7 @@ public class PacManState extends State {
                             
                             //Activates BigDot power up
                             canEatGhost = true;
-                            eatGhostCooldown = 15*60;
+                            eatGhostCooldown = 15*60 - (level*60-60); //BigDot power up goes down by one second for each level
                         }
                         dotCount++;
                     }else if(blocks instanceof Cherry || blocks instanceof Strawberry || blocks instanceof Orange) {//Added if statement for when PacMan collides with fruits.
