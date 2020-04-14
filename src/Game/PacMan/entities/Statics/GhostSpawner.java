@@ -18,7 +18,7 @@ public class GhostSpawner extends BaseStatic{//Removed BufferedImage import and 
 			//Spawns the first 4 ghosts at the start of the game
 			if(handler.getPacManState().startSpawn) {
 				for(int i = 0; i < 4; i++) {
-					Ghost ghosts = new Ghost(x,y,18,18,handler, Images.ghost[i]);
+					Ghost ghosts = new Ghost(x,y,width,height,handler, Images.ghost[i]);
 					ghosts.setSpeed(i+1);
 					handler.getMap().addEnemy(ghosts);
 				}
